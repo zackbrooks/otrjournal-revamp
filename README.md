@@ -1,38 +1,33 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## The Trucking Journal REVAMPED!(Temp Title)
 
-## Getting Started
+This is a WIP revamp of my previous project "Trucking Journal".
 
-First, run the development server:
+**Link to previous project live(MVP):** https://truckingjournal.netlify.app/
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+**Link to previous project repo:** https://github.com/zackbrooks/truckerJournalMERN
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Why Are You Making This Project....Again????
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Simplest answer is because I felt I was thinking too small. Truckers being able keep notes of companies and brokers is okay, but I can do so much more.
+I view the first Trucking Journal as a sort of MVP of sorts. I plan on building off of what I learned in version 1, and expanding on it. I plan on expanding on the
+"companies" part to allow truckers to add more instead of the two in version 1. Truckers will also be able to add "loads" now as well. That is one major thing
+that truckers keep track of, probably the major thing they write down.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## How It's Made
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+**Tech used:** MongoDB, Express, NextJS, NodeJS, Material UI, React Query, Zustand.
+MERN stack like V1, but changed the CSS to Material UI and state management will be using React Query/Zustand. I usually use RTK/Context, so looking forward to what RQ and Zustand can do.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Future Plans/Optimizations
 
-## Learn More
+I sort of touched on most of my future plans in a section above. Will just do a quick rundown since this is still a WIP.
 
-To learn more about Next.js, take a look at the following resources:
+- Add Load notes
+- Improve UI/UX
+- Make Site More Mobile Friendly
+- Implementing \*Redacted\*
+- Make A Mobile App with React Native
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Lessons Learned
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Zustand and React Query is a nice combo. Using Zustand is way simpler than Redux/Context. This combo will most likely be used in my personal projects going forward.
