@@ -75,4 +75,16 @@ export const theme = createTheme({
       fontSize: 14,
     },
   },
+  // components: {
+  //   // Name of the component
+  //   "MuiTypography": {
+  //     styleOverrides: {
+  //       root: {
+  //         // Some CSS
+  //         // fontSize: "3rem",
+  //         marginTop: "0px",
+  //       },
+  //     },
+  //   },
+  // },
 });

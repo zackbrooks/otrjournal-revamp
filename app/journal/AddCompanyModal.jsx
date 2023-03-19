@@ -11,6 +11,10 @@ import {
   TextField,
   LoadingButton,
   Divider,
+  Select,
+  FormControl,
+  MenuItem,
+  InputLabel,
 } from "@mui/material";
 import { Stack } from "@mui/system";
 
@@ -19,13 +23,13 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  // width: { xs: "95%", sm: 350 },
+  width: 350,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  borderRadius: "10px",
   boxShadow: 24,
   p: 4,
 };
-
 const AddCompanyModal = () => {
   // const { addCompanyMutation } = props;
   const [open, setOpen] = useState(false);
@@ -35,7 +39,7 @@ const AddCompanyModal = () => {
   const formik = useFormik({
     initialValues: {
       name: "",
-      type: "",
+      type: "Shipper",
       location: "",
       phoneNumber: "",
       email: "",
@@ -56,7 +60,8 @@ const AddCompanyModal = () => {
       userId: Yup.string(),
     }),
     onSubmit: async (values) => {
-      addCompanyMutation.mutate({ dataType: "company", dataInfo: values });
+      console.log("values:", values);
+      //   addCompanyMutation.mutate({ dataType: "company", dataInfo: values });
     },
   });
   return (
@@ -82,63 +87,159 @@ const AddCompanyModal = () => {
           justifyContent="center"
           alignItems={"center"}
         >
-          <Typography variant="h2" color="initial">
-            Add Company
-          </Typography>
+          <Stack justifyContent="center" alignItems={"center"}>
+            <Typography variant="h2" color="primary">
+              Add Company
+            </Typography>
+            <Divider sx={{ width: "100%" }} />
+            <Typography variant="caption" color="primary">
+              * denotes required field
+            </Typography>
+          </Stack>
+
+          <Stack direction={"row"} spacing={1}>
+            <TextField
+              id="name"
+              label="Company Name"
+              placeholder="ABD Distribution"
+              helperText={
+                formik.touched.name && formik.errors.name
+                  ? formik.errors.name
+                  : null
+              }
+              size="small"
+              required
+              error={formik.touched.name && formik.errors.name ? true : null}
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              fullWidth
+            />
+            <FormControl fullWidth size="small" required>
+              <InputLabel id="type">Type</InputLabel>
+              <Select
+                name="type"
+                labelId="type"
+                id="type"
+                value={formik.values.type}
+                label="Type"
+                onChange={formik.handleChange}
+              >
+                <MenuItem value={"Shipper"}>Shipper</MenuItem>
+                <MenuItem value={"Receiver"}>Receiver</MenuItem>
+                <MenuItem value={"Parking"}>Parking</MenuItem>
+                <MenuItem value={"Repair/Service"}>Repair/Service</MenuItem>
+                <MenuItem value={"Truck Stop"}>Truck Stop</MenuItem>
+                <MenuItem value={"Truck Wash"}>Truck Wash</MenuItem>
+                <MenuItem value={"Food/Restaurant"}>Food/Restaurant</MenuItem>
+                <MenuItem value={"Hotel/Motel"}>Hotel/Motel</MenuItem>
+                <MenuItem value={"Shopping"}>Shopping</MenuItem>
+                <MenuItem value={"Pet Park"}>Pet Park</MenuItem>
+                <MenuItem value={"Other"}>Other</MenuItem>
+                <MenuItem value={"Avoid"}>Avoid</MenuItem>
+              </Select>
+            </FormControl>
+          </Stack>
 
           <TextField
-            id="email"
-            label="Email"
-            placeholder="john@example.com"
+            id="location"
+            label="Location"
+            placeholder="123 Dropoff Lane"
             helperText={
-              formik.touched.email && formik.errors.email
-                ? formik.errors.email
+              formik.touched.location && formik.errors.location
+                ? formik.errors.location
                 : null
             }
             size="small"
             required
-            error={formik.touched.email && formik.errors.email ? true : null}
-            value={formik.values.email}
+            error={
+              formik.touched.location && formik.errors.location ? true : null
+            }
+            value={formik.values.location}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            fullWidth
           />
 
-          {/* <TextField
-            id="password"
-            label="Password"
-            helperText={
-              formik.touched.password && formik.errors.password
-                ? formik.errors.password
-                : null
-            }
-            size="small"
-            required
-            type={"password"}
-            error={
-              formik.touched.password && formik.errors.password ? true : null
-            }
-            value={formik.values.password}
+          <Stack direction={"row"} spacing={1.2}>
+            <TextField
+              id="email"
+              label="Email"
+              placeholder="john@example.com"
+              helperText={
+                formik.touched.email && formik.errors.email
+                  ? formik.errors.email
+                  : null
+              }
+              size="small"
+              error={formik.touched.email && formik.errors.email ? true : null}
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              sx={{ flexGrow: 1 }}
+            />
+            <TextField
+              id="phoneNumber"
+              label="Phone Number"
+              placeholder="5012345566"
+              helperText={
+                formik.touched.phoneNumber && formik.errors.phoneNumber
+                  ? formik.errors.phoneNumber
+                  : null
+              }
+              size="small"
+              error={
+                formik.touched.phoneNumber && formik.errors.phoneNumber
+                  ? true
+                  : null
+              }
+              value={formik.values.phoneNumber}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            <FormControl width={"60%"} size="small">
+              <InputLabel id="rating">Rating</InputLabel>
+              <Select
+                name="rating"
+                labelId="rating"
+                id="rating"
+                value={formik.values.rating}
+                label="Rating"
+                onChange={formik.handleChange}
+              >
+                <MenuItem value={1}>1</MenuItem>
+                <MenuItem value={2}>2</MenuItem>
+                <MenuItem value={3}>3</MenuItem>
+                <MenuItem value={4}>4</MenuItem>
+                <MenuItem value={5}>5</MenuItem>
+                <MenuItem value={6}>6</MenuItem>
+                <MenuItem value={7}>7</MenuItem>
+                <MenuItem value={8}>8</MenuItem>
+                <MenuItem value={9}>9</MenuItem>
+                <MenuItem value={10}>10</MenuItem>
+              </Select>
+            </FormControl>
+          </Stack>
+          <TextField
+            id="notes"
+            label="Notes"
+            placeholder="This place allows you to come in 12hrs early"
             onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
+            value={formik.values.notes}
+            multiline
+            fullWidth
           />
           <TextField
-            id="password2"
-            label="Confirm Password"
-            helperText={
-              formik.touched.password2 && formik.errors.password2
-                ? formik.errors.password2
-                : null
-            }
-            size="small"
-            required
-            type={"password"}
-            error={
-              formik.touched.password2 && formik.errors.password2 ? true : null
-            }
-            value={formik.values.password2}
+            id="routing"
+            label="Routing Notes"
+            placeholder="Come in from the north of the city."
             onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          /> */}
+            value={formik.values.routing}
+            multiline
+            fullWidth
+          />
+          <Divider sx={{ width: "100%" }} />
+
           <Stack direction={"row"} spacing={2.2}>
             <Button
               variant="contained"
@@ -147,7 +248,7 @@ const AddCompanyModal = () => {
               onClick={formik.handleSubmit}
               type="submit"
             >
-              Create Account
+              Create Company
             </Button>
             <Button
               variant="contained"

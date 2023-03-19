@@ -23,9 +23,9 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  // width: { xs: "95%", sm: 350 },
+  width: 350,
   bgcolor: "background.paper",
-  // border: "2px solid #000",
   borderRadius: "10px",
   boxShadow: 24,
   p: 4,
@@ -84,9 +84,15 @@ const AddBrokerModal = () => {
           justifyContent="center"
           alignItems={"center"}
         >
-          <Typography variant="h2" color="initial">
-            Add Broker
-          </Typography>
+          <Stack justifyContent="center" alignItems={"center"}>
+            <Typography variant="h2" color="primary">
+              Add Broker
+            </Typography>
+            <Divider sx={{ width: "100%" }} />
+            <Typography variant="caption" color="primary">
+              * denotes required field
+            </Typography>
+          </Stack>
 
           <Stack direction={"row"} spacing={2}>
             <TextField
@@ -145,8 +151,6 @@ const AddBrokerModal = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               sx={{ flexGrow: 1 }}
-              // width={"33%"}
-              // fullWidth
             />
             <TextField
               id="phoneNumber"
@@ -166,24 +170,7 @@ const AddBrokerModal = () => {
               value={formik.values.phoneNumber}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              // sx={{ flexShrink: 1 }}
-              // width={"33%"}
             />
-            {/* <TextField
-              id="rating"
-              label="Rating"
-              placeholder="5012345566"
-              helperText={
-                formik.touched.email && formik.errors.email
-                  ? formik.errors.email
-                  : null
-              }
-              size="small"
-              error={formik.touched.email && formik.errors.email ? true : null}
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            /> */}
             <FormControl width={"60%"} size="small">
               <InputLabel id="rating">Rating</InputLabel>
               <Select
@@ -216,43 +203,8 @@ const AddBrokerModal = () => {
             multiline
             fullWidth
           />
+          <Divider sx={{ width: "100%" }} />
 
-          {/* <TextField
-            id="password"
-            label="Password"
-            helperText={
-              formik.touched.password && formik.errors.password
-                ? formik.errors.password
-                : null
-            }
-            size="small"
-            required
-            type={"password"}
-            error={
-              formik.touched.password && formik.errors.password ? true : null
-            }
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          <TextField
-            id="password2"
-            label="Confirm Password"
-            helperText={
-              formik.touched.password2 && formik.errors.password2
-                ? formik.errors.password2
-                : null
-            }
-            size="small"
-            required
-            type={"password"}
-            error={
-              formik.touched.password2 && formik.errors.password2 ? true : null
-            }
-            value={formik.values.password2}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          /> */}
           <Stack direction={"row"} spacing={2.2}>
             <Button
               variant="contained"
@@ -261,7 +213,7 @@ const AddBrokerModal = () => {
               onClick={formik.handleSubmit}
               type="submit"
             >
-              Create Account
+              Create Broker
             </Button>
             <Button
               variant="contained"
