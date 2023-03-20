@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import classes from "./page.module.css";
 import * as Yup from "yup";
 import {
   Box,
@@ -44,8 +45,8 @@ const AddBrokerModal = () => {
   const [startDate2, endDate2] = dateRange2;
   const formik = useFormik({
     initialValues: {
-      bol: "dsfasdas",
-      payment: "3232",
+      bol: "",
+      payment: "",
       notes: "",
       completed: false,
       originName: "",
@@ -53,13 +54,13 @@ const AddBrokerModal = () => {
       originTrailer: "",
       originWindow: [],
       originMiles: "",
-      originType: "Live",
+      originType: "",
       destinationName: "",
       destinationAddress: "",
       destinationTrailer: "",
       destinationWindow: [],
       destinationMiles: "",
-      destinationType: "Live",
+      destinationType: "",
       userId: "63d48272c8ad1d722139ed3d",
     },
     validationSchema: Yup.object({
@@ -82,13 +83,13 @@ const AddBrokerModal = () => {
       userId: Yup.string(),
     }),
     onSubmit: async (values) => {
-      console.log("values:", values);
       // console.log(dateRange2);
       values.completed = false;
       values.originWindow.push(dateRange[0]);
       values.originWindow.push(dateRange[1]);
       values.destinationWindow.push(dateRange2[0]);
       values.destinationWindow.push(dateRange2[1]);
+      console.log("values:", values);
 
       // values.originType = typeSelectedOrigin.type;
       // values.destinationType = typeSelected.type;
@@ -116,11 +117,11 @@ const AddBrokerModal = () => {
       >
         <Stack
           sx={style}
-          spacing={2}
+          spacing={1}
           justifyContent="center"
           alignItems={"center"}
         >
-          <Stack justifyContent="center" alignItems={"center"}>
+          <Stack justifyContent="center" alignItems={"center"} spacing={1}>
             <Typography variant="h2" color="primary">
               Add Load
             </Typography>
@@ -128,72 +129,111 @@ const AddBrokerModal = () => {
             <Typography variant="caption" color="primary">
               * denotes required field
             </Typography>
+            <Stack direction={"row"} spacing={1.2}>
+              <TextField
+                id="bol"
+                label="Bill of Lading"
+                placeholder="BOL232AGESD"
+                helperText={
+                  formik.touched.bol && formik.errors.bol
+                    ? formik.errors.bol
+                    : null
+                }
+                size="small"
+                required
+                error={formik.touched.bol && formik.errors.bol ? true : null}
+                value={formik.values.bol}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                fullWidth
+              />
+              <TextField
+                id="payment"
+                label="Payment"
+                placeholder="864"
+                helperText={
+                  formik.touched.payment && formik.errors.payment
+                    ? formik.errors.payment
+                    : null
+                }
+                size="small"
+                error={
+                  formik.touched.payment && formik.errors.payment ? true : null
+                }
+                value={formik.values.payment}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                sx={{ flexGrow: 1 }}
+              />
+            </Stack>
           </Stack>
 
-          <TextField
-            id="originName"
-            label="Name"
-            placeholder="ABD Distribution"
-            helperText={
-              formik.touched.originName && formik.errors.originName
-                ? formik.errors.originName
-                : null
-            }
-            size="small"
-            required
-            error={
-              formik.touched.originName && formik.errors.originName
-                ? true
-                : null
-            }
-            value={formik.values.originName}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            fullWidth
-          />
-
-          <TextField
-            id="originAddress"
-            label="Address"
-            placeholder="123 Dropoff Lane"
-            helperText={
-              formik.touched.originAddress && formik.errors.originAddress
-                ? formik.errors.originAddress
-                : null
-            }
-            size="small"
-            required
-            error={
-              formik.touched.originAddress && formik.errors.originAddress
-                ? true
-                : null
-            }
-            value={formik.values.originAddress}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            fullWidth
-          />
-
+          <Divider sx={{ width: "100%" }}>
+            <Typography variant="h6" color="primary">
+              Origin Info
+            </Typography>
+          </Divider>
           <Stack direction={"row"} spacing={1.2}>
             <TextField
-              id="originTrailer"
-              label="Trailer Identification"
-              placeholder="BWR12345"
+              id="originName"
+              label="Name"
+              placeholder="ABC Distribution"
               helperText={
-                formik.touched.originTrailer && formik.errors.originTrailer
-                  ? formik.errors.originTrailer
+                formik.touched.originName && formik.errors.originName
+                  ? formik.errors.originName
                   : null
               }
               size="small"
+              required
               error={
-                formik.touched.originTrailer && formik.errors.originTrailer
+                formik.touched.originName && formik.errors.originName
                   ? true
                   : null
               }
-              value={formik.values.originTrailer}
+              value={formik.values.originName}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              sx={{ flexGrow: 1 }}
+              fullWidth
+            />
+            <FormControl fullWidth size="small">
+              <InputLabel id="originType" required>
+                Type
+              </InputLabel>
+              <Select
+                required
+                name="originType"
+                labelId="originType"
+                id="originType"
+                value={formik.values.originType}
+                label="originType"
+                onChange={formik.handleChange}
+              >
+                <MenuItem value={"Live"}>Live</MenuItem>
+                <MenuItem value={"Drop and Hook"}>Drop and Hook</MenuItem>
+              </Select>
+            </FormControl>
+          </Stack>
+          <Stack direction={"row"} spacing={1.2}>
+            <TextField
+              id="originAddress"
+              label="Address"
+              placeholder="123 Dropoff Lane"
+              helperText={
+                formik.touched.originAddress && formik.errors.originAddress
+                  ? formik.errors.originAddress
+                  : null
+              }
+              size="small"
+              required
+              error={
+                formik.touched.originAddress && formik.errors.originAddress
+                  ? true
+                  : null
+              }
+              value={formik.values.originAddress}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              fullWidth
             />
             <TextField
               id="originMiles"
@@ -215,14 +255,86 @@ const AddBrokerModal = () => {
               onBlur={formik.handleBlur}
               sx={{ flexGrow: 1 }}
             />
-            <FormControl width={"60%"} size="small">
-              <InputLabel id="originType">Type</InputLabel>
+          </Stack>
+          <Stack direction={"row"} spacing={1.2} className={classes.detail}>
+            <TextField
+              id="originTrailer"
+              label="Trailer"
+              placeholder="BWR12345"
+              required
+              helperText={
+                formik.touched.originTrailer && formik.errors.originTrailer
+                  ? formik.errors.originTrailer
+                  : null
+              }
+              size="small"
+              error={
+                formik.touched.originTrailer && formik.errors.originTrailer
+                  ? true
+                  : null
+              }
+              value={formik.values.originTrailer}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              sx={{ flexGrow: 1 }}
+            />
+            <FormControl size="large">
+              {/* <InputLabel id="originWindow">dd</InputLabel> */}
+              <DatePicker
+                id="originWindow"
+                required
+                selectsRange={true}
+                startDate={startDate}
+                endDate={endDate}
+                wrapperClassName="datePicker"
+                onChange={(update) => {
+                  setDateRange(update);
+                }}
+                // isClearable={true}
+                width={300}
+                placeholderText={"Click to enter pickup window"}
+              />
+            </FormControl>
+          </Stack>
+
+          <Divider sx={{ width: "100%" }}>
+            <Typography variant="h6" color="primary">
+              Destination Info
+            </Typography>
+          </Divider>
+          <Stack direction={"row"} spacing={1.2}>
+            <TextField
+              id="destinationName"
+              label="Name"
+              placeholder="ABD Distribution"
+              helperText={
+                formik.touched.destinationName && formik.errors.destinationName
+                  ? formik.errors.destinationName
+                  : null
+              }
+              size="small"
+              required
+              error={
+                formik.touched.destinationName && formik.errors.destinationName
+                  ? true
+                  : null
+              }
+              value={formik.values.destinationName}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              fullWidth
+            />
+            <FormControl fullWidth size="small">
+              <InputLabel id="destinationType" required>
+                Type
+              </InputLabel>
               <Select
-                name="originType"
-                labelId="originType"
-                id="originType"
-                value={formik.values.originType}
-                label="originType"
+                required
+                name="destinationType"
+                labelId="destinationType"
+                id="destinationType"
+                value={formik.values.destinationType}
+                label="destinationType"
                 onChange={formik.handleChange}
               >
                 <MenuItem value={"Live"}>Live</MenuItem>
@@ -230,23 +342,95 @@ const AddBrokerModal = () => {
               </Select>
             </FormControl>
           </Stack>
-          <FormControl size="large">
-            <InputLabel id="originWindow">dd</InputLabel>
-            <DatePicker
-              id="originWindow"
+          <Stack direction={"row"} spacing={1.2}>
+            <TextField
+              id="destinationAddress"
+              label="Address"
+              placeholder="123 Dropoff Lane"
+              helperText={
+                formik.touched.destinationAddress &&
+                formik.errors.destinationAddress
+                  ? formik.errors.destinationAddress
+                  : null
+              }
+              size="small"
               required
-              selectsRange={true}
-              startDate={startDate}
-              endDate={endDate}
-              wrapperClassName="datePicker"
-              onChange={(update) => {
-                setDateRange(update);
-              }}
-              // isClearable={true}
-              width={300}
-              placeholderText={"Click to enter pickup window"}
+              error={
+                formik.touched.destinationAddress &&
+                formik.errors.destinationAddress
+                  ? true
+                  : null
+              }
+              value={formik.values.destinationAddress}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              fullWidth
             />
-          </FormControl>
+            <TextField
+              id="destinationMiles"
+              label="Miles"
+              placeholder="234"
+              helperText={
+                formik.touched.destinationMiles &&
+                formik.errors.destinationMiles
+                  ? formik.errors.destinationMiles
+                  : null
+              }
+              size="small"
+              error={
+                formik.touched.destinationMiles &&
+                formik.errors.destinationMiles
+                  ? true
+                  : null
+              }
+              value={formik.values.destinationMiles}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              sx={{ flexGrow: 1 }}
+            />
+          </Stack>
+          <Stack direction={"row"} spacing={1.2} className={classes.detail}>
+            <TextField
+              id="destinationTrailer"
+              label="Trailer"
+              placeholder="BWR12345"
+              required
+              helperText={
+                formik.touched.destinationTrailer &&
+                formik.errors.destinationTrailer
+                  ? formik.errors.destinationTrailer
+                  : null
+              }
+              size="small"
+              error={
+                formik.touched.destinationTrailer &&
+                formik.errors.destinationTrailer
+                  ? true
+                  : null
+              }
+              value={formik.values.destinationTrailer}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              sx={{ flexGrow: 1 }}
+            />
+            <FormControl size="large">
+              {/* <InputLabel id="destinationWindow">dd</InputLabel> */}
+              <DatePicker
+                id="destinationWindow"
+                required
+                selectsRange={true}
+                startDate={startDate2}
+                endDate={endDate2}
+                wrapperClassName="datePicker"
+                onChange={(update) => {
+                  setDateRange2(update);
+                }}
+                // isClearable={true}
+                width={300}
+                placeholderText={"Click to enter pickup window"}
+              />
+            </FormControl>
+          </Stack>
           <TextField
             id="notes"
             label="Notes"
