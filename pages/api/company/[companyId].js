@@ -1,11 +1,11 @@
+const { Company, validate } = require("../../../models/Company");
+import { formatErrors } from "@/db/utils";
 import connectDB from "../../../db/connect";
-import Company from "../../../models/Company";
 
 export default async function oneCompany(req, res) {
   const { companyId } = req.query;
-  await connectDB();
   const { method } = req;
-  console.log("method:", method);
+  await connectDB();
   if (method === "GET") {
     try {
       const company = await Company.findById(companyId);
@@ -21,6 +21,8 @@ export default async function oneCompany(req, res) {
       res.status(400).send("Deletion failed");
     }
   } else if (method === "POST") {
+    const { error } = validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
     try {
       await Company.validate(req.body);
       await Company.findOneAndUpdate(
@@ -41,12 +43,7 @@ export default async function oneCompany(req, res) {
       );
       res.json({ message: "Company updated" });
     } catch (err) {
-      //   let errArr = [];
-      //   for (field in err.errors) {
-      //     errArr.push(err.errors[field].message);
-      //   }
-      res.status(400).send({ error: err.message });
-      //   console.log(err);
+      res.status(400).send(formatErrors(err.errors, "mongo"));
     }
   } else {
     res.status(400).send("Action not available");

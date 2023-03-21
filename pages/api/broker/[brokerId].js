@@ -1,11 +1,11 @@
+const { Broker, validate } = require("../../../models/Broker");
+import { formatErrors } from "@/db/utils";
 import connectDB from "../../../db/connect";
-import Broker from "../../../models/Broker";
 
 export default async function allBrokers(req, res) {
   const { brokerId } = req.query;
   await connectDB();
   const { method } = req;
-  console.log("method:", method);
   if (method === "GET") {
     try {
       const broker = await Broker.findById(brokerId);
@@ -21,6 +21,8 @@ export default async function allBrokers(req, res) {
       res.status(400).send("Deletion failed");
     }
   } else if (method === "POST") {
+    const { error } = validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
     try {
       await Broker.validate(req.body);
       await Broker.findOneAndUpdate(
@@ -29,7 +31,7 @@ export default async function allBrokers(req, res) {
           $set: {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
-            userId: "63d48272c8ad1d722139ed3d",
+            userId: req.body.userId,
             rating: req.body.rating,
             email: req.body.email,
             phoneNumber: req.body.phoneNumber,
@@ -39,7 +41,7 @@ export default async function allBrokers(req, res) {
       );
       res.json({ message: "broker updated" });
     } catch (err) {
-      console.log(err);
+      res.status(400).send(formatErrors(err.errors, "mongo"));
     }
   } else {
     res.status(400).send("Action not available");

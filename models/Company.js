@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-// const Joi = require("joi");
-// const { isEmail } = require("validator");
+const Joi = require("joi");
+const { isEmail } = require("validator");
 import { Schema, model, models } from "mongoose";
 
 const CompanySchema = new mongoose.Schema({
@@ -38,7 +38,7 @@ const CompanySchema = new mongoose.Schema({
   email: {
     type: String,
     required: false,
-    // validate: [isEmail, "Please enter valid email"],
+    validate: [isEmail, "Please enter valid email"],
   },
   type: {
     type: String,
@@ -60,23 +60,25 @@ const CompanySchema = new mongoose.Schema({
   },
 });
 
-// function validateCompany(company) {
-//   const schema = {
-//     name: Joi.string().required(),
-//     email: Joi.string().email(),
-//     phoneNumber: Joi.string(),
-//     userId: Joi.string().required(),
-//     rating: Joi.number().max(10).min(1),
-//     notes: Joi.string(),
-//     routing: Joi.string(),
-//     location: Joi.string().required(),
-//     type: Joi.string().required(),
-//   };
-//   return (result = Joi.validate(company, schema));
-// }
+function validateCompany(company) {
+  const schema = {
+    name: Joi.string().required(),
+    email: Joi.string().email(),
+    phoneNumber: Joi.string(),
+    userId: Joi.string().required(),
+    rating: Joi.number().max(10).min(1),
+    notes: Joi.string(),
+    routing: Joi.string(),
+    location: Joi.string().required(),
+    type: Joi.string().required(),
+  };
+
+  const result = Joi.validate(company, schema, { abortEarly: false });
+  return result;
+}
 
 const Company = models.Company || model("Company", CompanySchema);
 export default Company;
 
-// module.exports.Company = mongoose.model("Company", CompanySchema);
-// module.exports.validate = validateCompany;
+module.exports.Company = models.Company || model("Company", CompanySchema);
+module.exports.validate = validateCompany;

@@ -1,5 +1,6 @@
+const { Load, validate } = require("../../../models/Load");
+import { formatErrors } from "@/db/utils";
 import connectDB from "../../../db/connect";
-import Load from "../../../models/Load";
 
 export default async function oneLoad(req, res) {
   const { loadId } = req.query;
@@ -21,13 +22,15 @@ export default async function oneLoad(req, res) {
       res.status(400).send("Deletion failed");
     }
   } else if (method === "POST") {
+    const { error } = validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
     try {
       await Load.validate(req.body);
       await Load.findOneAndUpdate(
         { _id: loadId },
         {
           $set: {
-            userId: req.body.id,
+            userId: req.body.userId,
             bol: req.body.bol,
             name: req.body.name,
             originName: req.body.originName,
@@ -50,12 +53,7 @@ export default async function oneLoad(req, res) {
       );
       res.json({ message: "Load updated" });
     } catch (err) {
-      //   let errArr = [];
-      //   for (field in err.errors) {
-      //     errArr.push(err.errors[field].message);
-      //   }
-      res.status(400).send({ error: err.message });
-      //   console.log(err);
+      res.status(400).send(formatErrors(err.errors, "mongo"));
     }
   } else {
     res.status(400).send("Action not available");

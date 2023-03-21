@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-// const Joi = require("joi");
-// const { isEmail } = require("validator");
+const Joi = require("joi");
+const { isEmail } = require("validator");
 import { Schema, model, models } from "mongoose";
 
 const BrokerSchema = new Schema({
@@ -15,7 +15,7 @@ const BrokerSchema = new Schema({
   email: {
     type: String,
     required: [true, "Please enter email."],
-    // validate: [isEmail, "Please enter valid email"],
+    validate: [isEmail, "Please enter valid email"],
   },
   phoneNumber: {
     type: String,
@@ -37,22 +37,20 @@ const BrokerSchema = new Schema({
   },
 });
 
-// function validateBroker(broker) {
-//   const schema = {
-//     firstName: Joi.string().required(),
-//     lastName: Joi.string().required(),
-//     email: Joi.string().email().required(),
-//     phoneNumber: Joi.string().required(),
-//     userId: Joi.string().required(),
-//     rating: Joi.number().max(10).min(1),
-//     notes: Joi.string(),
-//   };
-//   console.log((result = Joi.validate(broker, schema)));
-//   return (result = Joi.validate(broker, schema, { abortEarly: false }));
-// }
+function validateBroker(broker) {
+  const schema = {
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required(),
+    email: Joi.string().email().required(),
+    phoneNumber: Joi.string().required(),
+    userId: Joi.string().required(),
+    rating: Joi.number().max(10).min(1),
+    notes: Joi.string(),
+  };
+  const result = Joi.validate(broker, schema, { abortEarly: false });
+  return result;
+}
 
 const Broker = models.Broker || model("Broker", BrokerSchema);
-export default Broker;
-// module.exports.Broker;
-// module.exports.Broker = mongoose.model("Broker", BrokerSchema);
-// module.exports.validate = validateBroker;
+module.exports.Broker = models.Broker || model("Broker", BrokerSchema);
+module.exports.validate = validateBroker;

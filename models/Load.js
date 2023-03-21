@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-// const Joi = require("joi");
+const Joi = require("joi");
 import { Schema, model, models } from "mongoose";
 
 const LoadSchema = new mongoose.Schema({
@@ -81,30 +81,32 @@ const LoadSchema = new mongoose.Schema({
   },
 });
 
-// function validateLoad(load) {
-//   const schema = {
-//     bol: Joi.string().required(),
-//     name: Joi.string(),
-//     payment: Joi.number(),
-//     notes: Joi.string(),
-//     completed: Joi.boolean(),
-//     userId: Joi.string().required(),
-//     originName: Joi.string().required(),
-//     originAddress: Joi.string().required(),
-//     originTrailer: Joi.string().required(),
-//     originWindow: Joi.array().required(),
-//     originMiles: Joi.number(),
-//     originType: Joi.string().required(),
-//     destinationName: Joi.string().required(),
-//     destinationAddress: Joi.string().required(),
-//     destinationTrailer: Joi.string().required(),
-//     destinationWindow: Joi.array().required(),
-//     destinationMiles: Joi.number(),
-//     destinationType: Joi.string().required(),
-//   };
-//   return (result = Joi.validate(load, schema));
-// }
-// module.exports.Load = mongoose.model("Load", LoadSchema);
-// module.exports.validate = validateLoad;
-const Load = models.Load || model("Load", LoadSchema);
-export default Load;
+function validateLoad(load) {
+  const schema = {
+    bol: Joi.string().required(),
+    name: Joi.string(),
+    payment: Joi.number(),
+    notes: Joi.string(),
+    completed: Joi.boolean(),
+    userId: Joi.string().required(),
+    originName: Joi.string().required(),
+    originAddress: Joi.string().required(),
+    originTrailer: Joi.string().required(),
+    originWindow: Joi.array().required(),
+    originMiles: Joi.number(),
+    originType: Joi.string().required(),
+    destinationName: Joi.string().required(),
+    destinationAddress: Joi.string().required(),
+    destinationTrailer: Joi.string().required(),
+    destinationWindow: Joi.array().required(),
+    destinationMiles: Joi.number(),
+    destinationType: Joi.string().required(),
+  };
+
+  const result = Joi.validate(load, schema, { abortEarly: false });
+  return result;
+}
+module.exports.Load = models.Load || model("Load", LoadSchema);
+module.exports.validate = validateLoad;
+// const Load = models.Load || model("Load", LoadSchema);
+// export default Load;
