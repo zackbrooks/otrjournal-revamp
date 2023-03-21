@@ -13,7 +13,7 @@ export default function RootLayout({ children, session }) {
       <head />
       <ThemeProvider theme={theme}>
         <CssBaseline>
-          <SessionProvider session={session}>
+          <SessionProvider>
             <body
               style={{
                 backgroundImage: `url(../images/hero.jpg)`,

@@ -18,6 +18,6 @@ export default async function allLoads(req, res) {
       res.status(400).send({ error: err.message });
     }
   } else {
-    res.status(400).send("Action not available");
+    res.status(404).send("Unknown enpoint");
   }
 }

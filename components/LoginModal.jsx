@@ -1,5 +1,7 @@
 "use client";
+import { useSession, getSession } from "next-auth/react";
 import { shades } from "@/theme";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -13,6 +15,7 @@ import {
   Divider,
 } from "@mui/material";
 import { Stack } from "@mui/system";
+import { signIn } from "next-auth/react";
 
 const style = {
   position: "absolute",
@@ -21,12 +24,13 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  // border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
 
 export default function LoginModal() {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -40,25 +44,17 @@ export default function LoginModal() {
       email: Yup.string().email("Invalid email address").required("Required"),
       password: Yup.string().required("Required"),
     }),
-    // onSubmit: async (values) => {
-    //   try {
-    //     const response = await journalApi.post("/api/user/login", values);
-    //     let token = await response.data.token;
-    //     let user = response.data.id;
-    //     console.log("TTTTTTTOKEN", token);
+    onSubmit: async (values) => {
+      const status = await signIn("credentials", {
+        redirect: false,
+        email: values.email,
+        password: values.password,
+        callbackUrl: "/journal",
+      });
 
-    //     setToken(token);
-    //     toast.success(
-    //       "Login successful! You will now be taken to your journal page."
-    //     );
-    //     setTimeout(() => {
-    //       navigate("/broker");
-    //     }, 3000);
-    //   } catch (error) {
-    //     toast.error(error.response.data);
-    //     return error.response.data;
-    //   }
-    // },
+      if (status.ok) router.push(status.url);
+      console.log("signin", status);
+    },
   });
 
   return (
@@ -126,7 +122,13 @@ export default function LoginModal() {
             onBlur={formik.handleBlur}
           />
           <Stack direction={"row"} spacing={2.2}>
-            <Button variant="contained" color="primary" size="large">
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              type="submit"
+              onClick={formik.handleSubmit}
+            >
               Login
             </Button>
             <Button

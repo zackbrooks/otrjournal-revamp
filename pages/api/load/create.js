@@ -36,6 +36,6 @@ export default async function addLoad(req, res) {
       res.status(400).send(formatErrors(err.errors, "mongo"));
     }
   } else {
-    res.status(400).send("Action not available");
+    res.status(404).send("Unknown enpoint");
   }
 }

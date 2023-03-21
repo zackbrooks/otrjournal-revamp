@@ -1,8 +1,10 @@
 const bcryptjs = require("bcryptjs");
-const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-const { isEmail } = require("validator");
+const mongoose = require("mongoose");
 const Joi = require("joi");
+const { isEmail } = require("validator");
+import { Schema, model, models } from "mongoose";
+
 const UserSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -39,7 +41,8 @@ function validateUser(user) {
     email: Joi.string().email().required(),
     password: Joi.string().min(8).required().max(255),
   };
-  return (result = Joi.validate(user, schema));
+  const result = Joi.validate(user, schema, { abortEarly: false });
+  return result;
 }
 module.exports.User = models.User || model("User", UserSchema);
 module.exports.validate = validateUser;

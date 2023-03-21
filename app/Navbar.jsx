@@ -2,6 +2,7 @@
 import LoginModal from "@/components/LoginModal";
 import SignupModal from "../components/SignupModal";
 import SignupModal2 from "./SignupModal2";
+import { getSession, useSession, signOut } from "next-auth/react";
 import NextLink from "next/link";
 import {
   Badge,
@@ -22,9 +23,7 @@ import {
 import { shades } from "@/theme";
 
 const Navbar = () => {
-  //   const navigate = useNavigate();
-  //   const dispatch = useDispatch();
-  //   const cart = useSelector((state) => state.cart.cart);
+  const { data } = useSession();
   let loggedOut = (
     <Stack direction={"row"} spacing={5}>
       <MuiLinkage
@@ -125,6 +124,9 @@ const Navbar = () => {
         sx={{
           "&:hover": { cursor: "pointer" },
         }}
+        onClick={() => {
+          signOut();
+        }}
       >
         Logout
       </MuiLinkage>
@@ -139,7 +141,7 @@ const Navbar = () => {
               OTF Journal
             </Typography>
           </Box>
-          <Box alignItems="center">{loggedIn}</Box>
+          <Box alignItems="center">{data?.user ? loggedIn : loggedOut}</Box>
         </Toolbar>
       </AppBar>
     </Box>
