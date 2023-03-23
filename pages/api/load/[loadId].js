@@ -6,7 +6,6 @@ export default async function oneLoad(req, res) {
   const { loadId } = req.query;
   await connectDB();
   const { method } = req;
-  console.log("method:", method);
   if (method === "GET") {
     try {
       const load = await Load.findById(loadId);

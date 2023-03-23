@@ -68,7 +68,7 @@ const Navbar = () => {
   );
 
   let loggedIn = (
-    <Stack direction={"row"} spacing={1}>
+    <Stack direction={"row"} spacing={5}>
       <MuiLinkage
         color="secondary"
         underline="none"
@@ -76,6 +76,7 @@ const Navbar = () => {
         component={NextLink}
         sx={{
           "&:hover": { cursor: "pointer" },
+          fontWeight: "800",
         }}
       >
         Map
@@ -83,46 +84,22 @@ const Navbar = () => {
       <MuiLinkage
         color="secondary"
         underline="none"
-        sx={{
-          "&:hover": { cursor: "pointer" },
-        }}
         href="/journal"
         component={NextLink}
+        sx={{
+          "&:hover": { cursor: "pointer" },
+          fontWeight: "800",
+        }}
       >
         Journal
       </MuiLinkage>
+
       <MuiLinkage
         color="secondary"
         underline="none"
         sx={{
           "&:hover": { cursor: "pointer" },
-        }}
-      >
-        Loads
-      </MuiLinkage>
-      <MuiLinkage
-        color="secondary"
-        underline="none"
-        sx={{
-          "&:hover": { cursor: "pointer" },
-        }}
-      >
-        Companies
-      </MuiLinkage>
-      <MuiLinkage
-        color="secondary"
-        underline="none"
-        sx={{
-          "&:hover": { cursor: "pointer" },
-        }}
-      >
-        Brokers
-      </MuiLinkage>
-      <MuiLinkage
-        color="secondary"
-        underline="none"
-        sx={{
-          "&:hover": { cursor: "pointer" },
+          fontWeight: "800",
         }}
         onClick={() => {
           signOut();

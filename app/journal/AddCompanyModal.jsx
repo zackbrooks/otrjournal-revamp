@@ -17,6 +17,8 @@ import {
   InputLabel,
 } from "@mui/material";
 import { Stack } from "@mui/system";
+import { addNewData } from "./utils";
+import { useMutation, useQueryClient } from "react-query";
 
 const style = {
   position: "absolute",
@@ -25,13 +27,20 @@ const style = {
   transform: "translate(-50%, -50%)",
   // width: { xs: "95%", sm: 350 },
   width: 350,
-  bgcolor: "background.paper",
+  backgroundColor: (theme) => theme.palette.neutral.light,
   borderRadius: "10px",
   boxShadow: 24,
   p: 4,
 };
-const AddCompanyModal = () => {
-  // const { addCompanyMutation } = props;
+const AddCompanyModal = (props) => {
+  const queryClient = useQueryClient();
+  const addCompanyMutation = useMutation(addNewData, {
+    onSuccess: () => {
+      //Invalidates cache and refetch
+      queryClient.invalidateQueries("company");
+    },
+  });
+  const { userId } = props;
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -46,7 +55,7 @@ const AddCompanyModal = () => {
       rating: 1,
       routing: "",
       notes: "",
-      userId: "63d48272c8ad1d722139ed3d",
+      userId,
     },
     validationSchema: Yup.object({
       email: Yup.string().email("Invalid email address"),
@@ -61,7 +70,7 @@ const AddCompanyModal = () => {
     }),
     onSubmit: async (values) => {
       console.log("values:", values);
-      //   addCompanyMutation.mutate({ dataType: "company", dataInfo: values });
+      addCompanyMutation.mutate({ dataType: "company", dataInfo: values });
     },
   });
   return (

@@ -1,7 +1,8 @@
 "use client";
+import ReactQueryWrapper from "./ReactQueryWrapper";
 import Navbar from "./Navbar";
 import { SessionProvider } from "next-auth/react";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import { CssBaseline, ThemeProvider, Box } from "@mui/material";
 import { theme } from "../theme";
 export default function RootLayout({ children, session }) {
   return (
@@ -26,7 +27,9 @@ export default function RootLayout({ children, session }) {
               <header>
                 <Navbar />
               </header>
-              <main>{children}</main>
+              <Box display={"flex"} justifyContent="center">
+                <ReactQueryWrapper>{children}</ReactQueryWrapper>
+              </Box>
             </body>
           </SessionProvider>
         </CssBaseline>

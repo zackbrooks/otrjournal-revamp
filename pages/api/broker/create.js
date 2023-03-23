@@ -3,6 +3,7 @@ import { formatErrors } from "@/db/utils";
 import connectDB from "../../../db/connect";
 
 export default async function addBroker(req, res) {
+  console.log("GOT HERE AT ADD BROKER");
   const { method } = req;
   if (method === "POST") {
     const { error } = validate(req.body);

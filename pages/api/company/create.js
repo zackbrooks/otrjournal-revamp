@@ -5,7 +5,7 @@ import connectDB from "../../../db/connect";
 export default async function addCompany(req, res) {
   const { companyId } = req.query;
   const { method } = req;
-  if (method === "GET") {
+  if (method === "POST") {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(formatErrors(error.details));
     await connectDB();
