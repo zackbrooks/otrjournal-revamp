@@ -23,8 +23,10 @@ export default async function allBrokers(req, res) {
   } else if (method === "POST") {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
+    console.log("got here", req.body);
     try {
       await Broker.validate(req.body);
+
       await Broker.findOneAndUpdate(
         { _id: brokerId },
         {
@@ -41,7 +43,9 @@ export default async function allBrokers(req, res) {
       );
       res.json({ message: "broker updated" });
     } catch (err) {
-      res.status(400).send(formatErrors(err.errors, "mongo"));
+      console.log(err);
+      res.status(400).send({ "ERROR": err });
+      // res.status(400).send(formatErrors(err.errors, "mongo"));
     }
   } else {
     res.status(404).send("Unknown enpoint");

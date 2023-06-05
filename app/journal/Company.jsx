@@ -49,7 +49,13 @@ const Company = () => {
       ) : Array.isArray(content) && content.length > 0 ? (
         content.map(
           (company) => (
-            <DataCard key={company._id} type="company" data={company} />
+            <DataCard
+              key={company._id}
+              type="company"
+              data={company}
+              deleteData={deleteCompanyMutation}
+              updateData={updateCompanyMutation}
+            />
           )
 
           // <CompanyCard

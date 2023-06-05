@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 import { getSession, useSession } from "next-auth/react";
 import { getAllData, editData, deleteData, addNewData } from "./utils";
 import DataCard from "./DataCard";
+import BrokerFullModal from "./BrokerFullModal";
 
 const Broker = () => {
   const queryClient = useQueryClient();
@@ -48,13 +49,14 @@ const Broker = () => {
         <p>Data is loading</p>
       ) : Array.isArray(content) && content.length > 0 ? (
         content.map((broker) => (
-          <DataCard
-            key={broker._id}
-            type="broker"
-            data={broker}
-            deleteData={deleteBrokerMutation}
-            updateData={updateBrokerMutation}
-          />
+          <BrokerFullModal data={broker} userId={userId} key={broker._id} />
+          // <DataCard
+          //   key={broker._id}
+          //   type="broker"
+          //   data={broker}
+          //   deleteData={deleteBrokerMutation}
+          //   updateData={updateBrokerMutation}
+          // />
         ))
       ) : (
         <p>You havent entered any broker data</p>

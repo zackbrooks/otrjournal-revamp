@@ -18,8 +18,9 @@ import {
   InputLabel,
 } from "@mui/material";
 import { Stack } from "@mui/system";
-import { addNewData } from "./utils";
+import { addNewData, editData, deleteData } from "./utils";
 import { useQuery, useMutation, useQueryClient } from "react-query";
+import DataCard from "./DataCard";
 
 const style = {
   position: "absolute",
@@ -34,7 +35,7 @@ const style = {
   p: 4,
 };
 
-const AddBrokerModal = (props) => {
+const BrokerFullModal = (props) => {
   const queryClient = useQueryClient();
   const addBrokerMutation = useMutation(addNewData, {
     onSuccess: () => {
@@ -42,18 +43,33 @@ const AddBrokerModal = (props) => {
       queryClient.invalidateQueries("broker");
     },
   });
-  const { userId, type, info } = props;
+  const updateBrokerMutation = useMutation(editData, {
+    onSuccess: () => {
+      //Invalidates cache and refetch
+      queryClient.invalidateQueries("broker");
+    },
+  });
+  const deleteBrokerMutation = useMutation(deleteData, {
+    onSuccess: () => {
+      //Invalidates cache and refetch
+      queryClient.invalidateQueries("broker");
+    },
+  });
+  const { userId, data } = props;
+
   const [open, setOpen] = useState(false);
+  const [editMode, seteditMode] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      firstName: "",
-      lastName: "",
-      phoneNumber: "",
-      email: "",
-      rating: 1,
-      notes: "",
+      firstName: data.firstName,
+      lastName: data.lastName,
+      phoneNumber: data.phoneNumber,
+      email: data.email,
+      rating: data.rating,
+      notes: data.notes,
       userId,
     },
     validationSchema: Yup.object({
@@ -66,19 +82,24 @@ const AddBrokerModal = (props) => {
       userId: Yup.string(),
     }),
     onSubmit: async (values) => {
-      addBrokerMutation.mutate({ dataType: "broker", dataInfo: values });
+      //   console.log("IDDDDDD", data._id);
+      console.log(values);
+      updateBrokerMutation.mutate({
+        dataType: "broker",
+        dataInfo: values,
+        dataId: data._id,
+      });
     },
   });
   return (
     <>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleOpen}
-        size="large"
-      >
-        Add Broker
-      </Button>
+      <DataCard
+        type="broker"
+        data={data}
+        deleteData={deleteBrokerMutation}
+        updateData={updateBrokerMutation}
+        openModal={handleOpen}
+      />
 
       <Modal
         open={open}
@@ -107,6 +128,7 @@ const AddBrokerModal = (props) => {
               id="firstName"
               label="First Name"
               placeholder="John"
+              disabled={!editMode}
               helperText={
                 formik.touched.firstName && formik.errors.firstName
                   ? formik.errors.firstName
@@ -214,15 +236,25 @@ const AddBrokerModal = (props) => {
           <Divider sx={{ width: "100%" }} />
 
           <Stack direction={"row"} spacing={2.2}>
-            <Button
-              variant="contained"
-              color="primary"
-              size="large"
-              onClick={formik.handleSubmit}
-              type="submit"
-            >
-              Create Broker
-            </Button>
+            {!editMode ? (
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                onClick={() => seteditMode((preV) => !preV)}
+              >
+                Edit
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                onClick={formik.handleSubmit}
+              >
+                Submit Update
+              </Button>
+            )}
             <Button
               variant="contained"
               color="primary"
@@ -238,4 +270,4 @@ const AddBrokerModal = (props) => {
   );
 };
 
-export default AddBrokerModal;
+export default BrokerFullModal;

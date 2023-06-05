@@ -7,6 +7,7 @@ import {
   alpha,
   Tabs,
   Tab,
+  Grid,
 } from "@mui/material";
 import AddBrokerModal from "./AddBrokerModal";
 import AddLoadModal from "./AddLoadModal";
@@ -36,7 +37,7 @@ export default function Home() {
       sx={{
         // backgroundColor: (theme) => theme.palette.neutral.light,
         backgroundColor: alpha("#dadde1", 0.75),
-        width: { xs: "95%", sm: "600px", md: "800px" },
+        width: { xs: "95%", sm: "800px", md: "900px" },
         borderRadius: "10px",
         boxShadow: 24,
         p: 4,
@@ -64,7 +65,7 @@ export default function Home() {
         sx={{ width: { xs: "95%", md: "740px" } }}
         justifyContent="center"
       >
-        <AddBrokerModal userId={userId} />
+        <AddBrokerModal userId={userId} type={"blank"} />
         <AddLoadModal userId={userId} />
         <AddCompanyModal userId={userId} />
       </Stack>
@@ -86,11 +87,18 @@ export default function Home() {
         <Tab label="Companies" value="company"></Tab>
         <Tab label="Brokers" value="broker"></Tab>
       </Tabs>
-      <Box>
+      <Grid
+        container
+        spacing={{ xs: 2, md: 3 }}
+        // columns={{ xs: 4, sm: 8, md: 12 }}
+        justifyContent={"center"}
+        alignItems={"center"}
+        gap={2}
+      >
         {value === "broker" ? <Broker /> : null}
         {value === "company" ? <Company /> : null}
         {value === "load" ? <Load /> : null}
-      </Box>
+      </Grid>
     </Stack>
   );
 }

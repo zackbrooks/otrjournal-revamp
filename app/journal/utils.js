@@ -11,30 +11,6 @@ export const journalApi = axios.create({
   },
 });
 
-// export const journalApiAuth = axios.create({
-//   baseURL: "http://localhost:5000",
-//   withCredentials: true,
-//   // headers: {
-//   //   Authorization: "Bearer " + authStore.getState().token,
-//   // },
-// });
-
-// journalApiAuth.interceptors.request.use((config) => {
-//   const token = useAuthStore.getState().token;
-//   config.headers = { Authorization: `Bearer ${token}` };
-//   return config;
-// });
-// export const logUser = async (userInfo) => {
-//   try {
-//     const response = await axios.post("/api/users/login", userInfo);
-//     // console.log("Log in successful", response);
-//     return response;
-//   } catch (error) {
-//     // console.log(error.response.data);
-//     return error.response.data;
-//   }
-// };
-
 export const registerUser = async (userInfo) => {
   console.log("userInfo:", userInfo);
 
@@ -86,16 +62,18 @@ export const editData = async (obj) => {
       `/api/${dataType}/${dataId}`,
       dataInfo
     );
-    toast.success(`${dataType} successfully updated`);
+    // toast.success(`${dataType} successfully updated`);
   } catch (error) {
-    console.log("error mayne on Edit", error.response.data);
-    if (error.response.data.error) {
-      for (error of error.response.data.error) {
-        toast.error(error);
-      }
-    } else {
-      toast.error(error.response.data);
-    }
+    console.log(error);
+    // console.log("error mayne on Edit", error.response.data);
+    // if (error.response.data.error) {
+    //   for (error of error.response.data.error) {
+    //     toast.error(error);
+    //   }
+    // } else {
+    //   console.log(error)
+    //   // toast.error(error.response.data);
+    // }
   }
 };
 
